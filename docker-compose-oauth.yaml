@@ -24,7 +24,13 @@ services:
   # ---== alpha node ==---
 
   splinterd-alpha:
-    image: splintercommunity/splinterd:experimental
+    image: splinterd-alpha
+    build:
+      context: ../splinter
+      dockerfile: ./splinterd/Dockerfile-installed-bionic
+      args:
+      - CARGO_ARGS=${CARGO_ARGS}
+      - REPO_VERSION=0.5.1-dev
     container_name: splinterd-alpha
     hostname: splinterd-alpha
     expose:
@@ -58,6 +64,10 @@ services:
         --tls-server-key /etc/splinter/certs/private/server.key \
         --enable-biome \
         --database postgres://admin:admin@splinter-db-alpha:5432/splinter \
+        --oauth-provider github \
+        --oauth-client-secret eaeedf93def1cf1c8df41c378365e68c2b08e1c1 \
+        --oauth-client-id 4c338f9463a9c76658b5 \
+        --oauth-redirect-url http://localhost:8085/oauth/callback \
         --tls-insecure
       "
   splinter-db-alpha:
@@ -89,7 +99,13 @@ services:
 # ---== beta node ==---
 
   splinterd-beta:
-    image: splintercommunity/splinterd:experimental
+    image: splinterd-beta
+    build:
+      context: ../splinter
+      dockerfile: ./splinterd/Dockerfile-installed-bionic
+      args:
+      - CARGO_ARGS=${CARGO_ARGS}
+      - REPO_VERSION=0.5.1-dev
     container_name: splinterd-beta
     hostname: splinterd-beta
     expose:
@@ -122,6 +138,10 @@ services:
         --tls-server-key /etc/splinter/certs/private/server.key \
         --enable-biome \
         --database postgres://admin:admin@splinter-db-beta:5432/splinter \
+        --oauth-provider github \
+        --oauth-client-secret eaeedf93def1cf1c8df41c378365e68c2b08e1c1 \
+        --oauth-client-id 4c338f9463a9c76658b5 \
+        --oauth-redirect-url http://localhost:8085/oauth/callback \
         --tls-insecure
       "
   splinter-db-beta:
